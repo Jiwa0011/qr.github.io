@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animal Bite Registration - New Patient</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Domine:wght@600&family=Source+Sans+3:wght@400;500;600&display=swap');
+
+:root {
+    --INK: #0f172a;
+    --SLATE: #3d4461;
+    --ACCENT: #3b82f6;
+    --ACCENT_SOFT: rgba(59, 130, 246, 0.15);
+    --PAPER: #fdfdfd;
+    --PAPER_SOFT: #f5f6fb;
+    --LINE: #d9dce8;
+    --MUTED: #69708c;
+    --ALERT: #c53030;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 24px;
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #eceff6 0%, #f7f8fb 55%, #eef2fb 100%);
+    min-height: 100vh;
+    line-height: 1.5;
+    color: var(--SLATE);
+}
+
+.page-frame {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.logo-corner {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+.logo-corner img {
+        height: 150px;
+    object-fit: contain;
+}
+
+.container {
+    background: var(--PAPER);
+    border-radius: 14px;
+    overflow: visible;
+    border: 1px solid var(--LINE);
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+    position: relative;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    padding: 1px;
+    background: linear-gradient(120deg, rgba(59, 130, 246, 0.5), rgba(15, 23, 42, 0.4));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.form-header {
+    padding: 36px 40px 28px;
+    background: linear-gradient(120deg, #0f1b34, #1e2b4c 65%, #28365a);
+    color: #f4f6fd;
+}
+
+.form-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.form-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #9ae6b4;
+}
+
+h1 {
+    font-family: 'Domine', 'Georgia', serif;
+    font-size: clamp(24px, 3vw, 32px);
+    margin: 18px 0 8px;
+    letter-spacing: 0.4px;
+    color: #f7fafc;
+}
+
+.form-subtitle {
+    margin: 0;
+    font-size: 16px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.form-meta {
+    display: flex;
+    gap: 18px;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: 20px;
+    color: rgba(255, 255, 255, 0.65);
+    flex-wrap: wrap;
+}
+
+.form-grid {
+    padding: 32px 32px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.form-section {
+    border: 1px solid var(--LINE);
+    border-radius: 12px;
+    padding: 28px 24px 8px;
+    background: var(--PAPER_SOFT);
+}
+
+.section-title {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-index {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    display: grid;
+    place-items: center;
+    font-weight: 600;
+    color: var(--ACCENT);
+    font-size: 16px;
+}
+
+.section-title h3 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--INK);
+}
+
+.section-title p {
+    margin: 4px 0 0;
+    color: var(--MUTED);
+    font-size: 14px;
+}
+
+.section-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px 24px;
+}
+
+.form-group {
+    margin: 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    color: var(--INK);
+}
+
+.field-note {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--MUTED);
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--LINE);
+    border-radius: 8px;
+    font-size: 15px;
+    background: #fff;
+    font-family: inherit;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    color: var(--SLATE);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--ACCENT);
+    box-shadow: 0 0 0 3px var(--ACCENT_SOFT);
+    outline: none;
+}
+
+input:invalid {
+    border-color: var(--ALERT);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+select {
+    appearance: none;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="%2369708c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px;
+    padding-right: 40px;
+}
+
+.checkbox-section {
+    border: 1px solid var(--LINE);
+    border-radius: 12px;
+    background: #fff;
+    padding: 26px 24px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    margin-top: 2px;
+    appearance: none;
+    border: 1px solid var(--LINE);
+    border-radius: 6px;
+    background: #fff;
+    position: relative;
+    cursor: pointer;
+}
+
+.checkbox-container input[type="checkbox"]:checked {
+    border-color: var(--ACCENT);
+    background: var(--ACCENT);
+}
+
+.checkbox-container input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 14px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg);
+    top: 2px;
+    left: 6px;
+}
+
+.checkbox-container label {
+    margin: 0;
+    font-size: 15px;
+    color: var(--SLATE);
+    line-height: 1.5;
+}
+
+.required {
+    color: var(--ALERT);
+}
+
+.form-actions {
+    text-align: center;
+    padding: 0 24px 36px;
+}
+
+button {
+    border: none;
+    border-radius: 10px;
+    padding: 14px 34px;
+    background: var(--ACCENT);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    min-width: 220px;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 22px rgba(59, 130, 246, 0.25);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.form-note {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--MUTED);
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--ACCENT);
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid var(--ACCENT);
+    margin-bottom: 24px;
+}
+
+.back-button:hover {
+    background: rgba(59, 130, 246, 0.15);
+    color: #2563eb;
+    transform: translateX(-2px);
+}
+
+@media (max-width: 720px) {
+    body {
+        padding: 16px;
+    }
+    .form-grid {
+        padding: 28px 20px 8px;
+        gap: 24px;
+    }
+    .form-section,
+    .checkbox-section {
+        padding: 24px 18px 6px;
+    }
+    .section-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .form-actions {
+        padding: 0 12px 32px;
+    }
+    button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-header {
+        padding: 28px 24px;
+    }
+    h1 {
+        font-size: 24px;
+    }
+    .form-badge {
+        font-size: 12px;
+    }
+}
+
+@media print {
+    body {
+        background: #fff;
+        padding: 0;
+    }
+    .container::before,
+    button,
+    .form-note {
+        display: none;
+    }
+    .container,
+    .form-section,
+    .checkbox-section {
+        box-shadow: none;
+        border-radius: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+<main class="page-frame">
+    <a href="registration copy.html" class="back-button">← Back</a>
+    <div class="container">
+        <div class="logo-corner">
+            <img src="../icons/logo.svg" alt="Rabies Prevention Unit Logo">
+        </div>
+        <header class="form-header">
+            <p class="form-badge">Rabies Prevention Unit</p>
+            <h1>Animal Bite Intake</h1>
+            <p class="form-subtitle">New patient registration</p>
+            <div class="form-meta">
+                <span>Case type: New patient</span>
+                <span>Form ref: ABTC-NP</span>
+            </div>
+        </header>
+        
+        <form id="registrationForm" class="form-grid">
+            <section class="form-section">
+                <div class="section-title">
+                    <span class="section-index">I</span>
+                    <div>
+                        <h3>Patient Information</h3>
+                        <p>Identify the patient and establish preferred contact channels.</p>
+                    </div>
+                </div>
+                <div class="section-grid">
+                    <div class="form-group">
+                        <label for="full_name">1. Full Name <span class="required">*</span></label>
+                        <input type="text" id="full_name" name="full_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">2. Age <span class="required">*</span></label>
+                        <input type="number" id="age" name="age" min="1" max="120" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sex">3. Sex <span class="required">*</span></label>
+                        <select id="sex" name="sex" required>
+                            <option value="" disabled selected>Please select...</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_of_birth">4. Date of Birth</label>
+                        <input type="date" id="date_of_birth" name="date_of_birth">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="complete_address">5. Complete Address <span class="required">*</span></label>
+                        <textarea id="complete_address" name="complete_address" placeholder="Include street, barangay, city/municipality, and province." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact_number">6. Contact Number <span class="required">*</span></label>
+                        <input type="tel" id="contact_number" name="contact_number" placeholder="e.g., 09123456789" required>
+                        <p class="field-note">We will send queue updates to this number.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="section-title">
+                    <span class="section-index">II</span>
+                    <div>
+                        <h3>Animal Bite Details</h3>
+                        <p>Record the circumstances around the exposure.</p>
+                    </div>
+                </div>
+                <div class="section-grid">
+                    <div class="form-group">
+                        <label for="bite_date">7. Date of Bite <span class="required">*</span></label>
+                        <input type="date" id="bite_date" name="bite_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bite_time">8. Time of Bite</label>
+                        <input type="time" id="bite_time" name="bite_time">
+                    </div>
+                    <div class="form-group">
+                        <label for="bite_place">9. Location of Incident</label>
+                        <input type="text" id="bite_place" name="bite_place" placeholder="e.g., Home, Street, Workplace">
+                    </div>
+                    <div class="form-group">
+                        <label for="animal_type">10. Type of Animal</label>
+                        <select id="animal_type" name="animal_type">
+                            <option value="" disabled selected>Please select...</option>
+                            <option value="Dog">Dog</option>
+                            <option value="Cat">Cat</option>
+                            <option value="Monkey">Monkey</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <input type="text" id="animal_type_other" name="animal_type_other" placeholder="Please specify the animal" style="display: none; margin-top: 10px;">
+                    </div>
+                    <div class="form-group">
+                        <label for="animal_status">11. Animal Status</label>
+                        <select id="animal_status" name="animal_status">
+                            <option value="" disabled selected>Please select...</option>
+                            <option value="Pet">Pet (Owned)</option>
+                            <option value="Stray">Stray</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="body_part">12. Body Part Bitten <span class="required">*</span></label>
+                        <input type="text" id="body_part" name="body_part" placeholder="e.g., Right hand, Left leg, Face" required>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="section-title">
+                    <span class="section-index">III</span>
+                    <div>
+                        <h3>First Aid & Medical History</h3>
+                        <p>Note immediate care steps and previous vaccinations.</p>
+                    </div>
+                </div>
+                <div class="section-grid">
+                    <div class="form-group">
+                        <label for="wound_washed">14. Was the wound washed promptly?</label>
+                        <select id="wound_washed" name="wound_washed">
+                            <option value="" disabled selected>Please select...</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="previous_vaccine">15. Prior Anti-Rabies Vaccine?</label>
+                        <select id="previous_vaccine" name="previous_vaccine">
+                            <option value="" disabled selected>Please select...</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="allergies">16. Known Allergies</label>
+                        <input type="text" id="allergies" name="allergies" placeholder="If none, write N/A or list specific allergies.">
+                    </div>
+                </div>
+            </section>
+
+            <section class="checkbox-section">
+                <div class="section-title">
+                    <span class="section-index">IV</span>
+                    <div>
+                        <h3>Confirmation & Declaration</h3>
+                        <p>Ensure the information provided is accurate.</p>
+                    </div>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="confirmation" name="confirmation" required>
+                    <label for="confirmation">17. <strong>Declaration:</strong> I confirm that the information provided is accurate and understand that inaccurate declarations may delay treatment.</label>
+                </div>
+            </section>
+
+            <div class="form-actions">
+                <button type="submit">Submit Registration</button>
+                <p class="form-note">You will receive a confirmation once your record is queued.</p>
+            </div>
+        </form>
+    </div>
+</main>
+
+<script>
+document.getElementById('registrationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form data
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((value, key) => {
+        data[key] = value;
+    });
+    
+    // Add submission timestamp and status
+    data.submittedAt = new Date().toISOString();
+    data.status = 'pending';
+    data.patientType = 'new';
+    
+    console.log('Registration data:', data);
+    
+    // If "Other" was selected for animal type, use the custom input value
+    if (data.animal_type === 'Other' && data.animal_type_other) {
+        data.animal_type = data.animal_type_other;
+        delete data.animal_type_other; // Remove the separate field
+    }
+    
+    // Simulate form submission (replace with actual API call)
+    try {
+        // You can replace this with actual Firebase or API submission
+        alert('Registration submitted successfully! Please wait for confirmation.');
+        
+        // Reset form after successful submission
+        this.reset();
+        
+        // Optionally redirect to a confirmation page
+        // window.location.href = 'confirmation.html';
+        
+    } catch (error) {
+        console.error('Submission error:', error);
+        alert('There was an error submitting your registration. Please try again.');
+    }
+});
+
+// Auto-fill current date for bite date if it's recent
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date().toISOString().split('T')[0];
+    const biteDateInput = document.querySelector('input[name="bite_date"]');
+    if (biteDateInput && !biteDateInput.value) {
+        // Optionally set today's date as default
+        // biteDateInput.value = today;
+    }
+    
+    // Handle "Other" animal type selection
+    const animalTypeSelect = document.getElementById('animal_type');
+    const animalTypeOtherInput = document.getElementById('animal_type_other');
+    
+    animalTypeSelect.addEventListener('change', function() {
+        if (this.value === 'Other') {
+            animalTypeOtherInput.style.display = 'block';
+            animalTypeOtherInput.required = true;
+            animalTypeOtherInput.focus();
+        } else {
+            animalTypeOtherInput.style.display = 'none';
+            animalTypeOtherInput.required = false;
+            animalTypeOtherInput.value = '';
+        }
+    });
+});
+</script>
+
+</body>
+</html>
